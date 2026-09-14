@@ -20,5 +20,14 @@ A tiny local-first watering tracker for your windowsill garden.
 ## Tech
 Vanilla HTML, CSS, JavaScript — single file, no build step.
 
+## Getting Started
+1. Open the [live demo](https://RizkiRamadhani561.github.io/seedling-watering-schedule-tracker/)
+2. Add your plants with watering frequency
+3. Click "Watered Today" when you water each plant
+4. Track your garden health right from your browser
+
+## Installation (Local)
+Simply open `index.html` in your browser. No dependencies, no build process required.
+
 ## License
 MIT
