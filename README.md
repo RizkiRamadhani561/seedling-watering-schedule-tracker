@@ -2,6 +2,9 @@
 
 A tiny local-first watering tracker for your windowsill garden.
 
+## 🌐 Live Demo
+**[https://rizkiramadhani561.github.io/seedling-watering-schedule-tracker/](https://rizkiramadhani561.github.io/seedling-watering-schedule-tracker/)**
+
 ## Features
 - Add plants with name and watering frequency
 - Watered Today tracking with one click
