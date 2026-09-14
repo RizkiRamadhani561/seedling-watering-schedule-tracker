@@ -1,0 +1,261 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seedling</title>
+<style>
+:root{--bg:#f5f7f1;--surface:#fff;--ink:#17301f;--muted:#708074;--green:#2f7d4a;--green-soft:#e5f3e9;--red:#c64545;--red-soft:#fdeaea;--amber:#b97919;--amber-soft:#fff2d8;--border:#dde5d8;--shadow:0 2px 12px rgba(23,48,31,.07);--r:18px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-120px;right:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(47,125,74,.13) 0%,transparent 70%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;bottom:-80px;left:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(47,125,74,.09) 0%,transparent 70%);pointer-events:none;z-index:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+header{padding:22px 0 16px;display:flex;align-items:center;gap:10px}
+.logo{font-size:1.55rem;font-weight:800;color:var(--green);letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.tagline{font-size:.8rem;color:var(--muted);margin-left:auto;font-style:italic}
+.hero{background:linear-gradient(135deg,var(--green-soft) 0%,#f0f8f2 100%);border-radius:var(--r);padding:28px 28px 24px;margin-bottom:24px;animation:fadeUp .5s ease both}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
+.greeting{font-size:1.35rem;font-weight:700;color:var(--green)}
+.hero-date{font-size:.85rem;color:var(--muted);margin-top:4px}
+.hero-icons{font-size:1.5rem;opacity:.7;display:flex;gap:12px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}
+.stat{background:var(--surface);border-radius:12px;padding:12px 18px;text-align:center;flex:1;min-width:90px;box-shadow:var(--shadow)}
+.stat-num{font-size:1.6rem;font-weight:800;color:var(--green)}
+.stat-num.red{color:var(--red)}
+.stat-num.amber{color:var(--amber)}
+.stat-label{font-size:.72rem;color:var(--muted);margin-top:2px}
+.form-card{background:var(--surface);border-radius:var(--r);padding:22px 24px;margin-bottom:22px;box-shadow:var(--shadow);animation:fadeUp .5s .1s ease both}
+.form-card h2{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
+.form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px}
+.field label{font-size:.78rem;font-weight:600;color:var(--muted)}
+.field input{padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;color:var(--ink);background:var(--bg);outline:none;transition:border .2s}
+.field input:focus{border-color:var(--green)}
+.freq-wrap{display:flex;align-items:center;gap:6px}
+.freq-wrap input{width:72px}
+.freq-wrap span{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.btn-add{padding:10px 22px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;white-space:nowrap;align-self:flex-end}
+.btn-add:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(47,125,74,.3)}
+.btn-add:active{transform:scale(.97)}
+.err{font-size:.75rem;color:var(--red);margin-top:4px;min-height:14px}.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.filter-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
+.filter-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.search-wrap{margin-left:auto;position:relative}
+.search-wrap input{padding:7px 12px 7px 32px;border:1.5px solid var(--border);border-radius:20px;font-size:.8rem;color:var(--ink);background:var(--surface);outline:none;width:160px;transition:border .2s}
+.search-wrap input:focus{border-color:var(--green)}
+.search-wrap::before{content:'🔍';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:.75rem;pointer-events:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:32px}
+.card{background:var(--surface);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);position:relative;transition:transform .2s,box-shadow .2s;animation:cardIn .35s ease both}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(23,48,31,.1)}
+.card-emoji{font-size:2rem;margin-bottom:8px;display:block}
+.card-name{font-size:1.15rem;font-weight:800;color:var(--ink);margin-bottom:2px}
+.card-freq{font-size:.78rem;color:var(--muted);margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:12px}
+.badge.green{background:var(--green-soft);color:var(--green)}
+.badge.amber{background:var(--amber-soft);color:var(--amber)}
+.badge.red{background:var(--red-soft);color:var(--red);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.last-watered{font-size:.75rem;color:var(--muted);margin-bottom:14px}
+.last-watered strong{color:var(--ink)}
+.btn-water{width:100%;padding:11px;background:var(--green-soft);color:var(--green);border:1.5px solid rgba(47,125,74,.25);border-radius:10px;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:8px}
+.btn-water:hover{background:var(--green);color:#fff}
+.btn-water:active{transform:scale(.97)}
+.btn-water.done{background:var(--green);color:#fff}
+.btn-del{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:4px;border-radius:6px;transition:color .2s;line-height:1}
+.btn-del:hover{color:var(--red)}
+.del-confirm{display:none;margin-top:8px;padding:12px;background:var(--red-soft);border-radius:10px;font-size:.8rem;color:var(--red);text-align:center}
+.del-confirm.show{display:block}
+.del-confirm p{margin-bottom:8px;font-weight:600}
+.del-actions{display:flex;gap:8px;justify-content:center}
+.del-actions button{padding:6px 16px;border-radius:8px;border:none;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-cancel{background:var(--border);color:var(--ink)}
+.btn-confirm-del{background:var(--red);color:#fff}
+.empty{text-align:center;padding:60px 20px;animation:fadeUp .4s ease both;grid-column:1/-1}
+.empty-icon{font-size:3rem;margin-bottom:14px}
+.empty h3{font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.empty p{font-size:.85rem;color:var(--muted);margin-bottom:20px;max-width:320px;margin-left:auto;margin-right:auto}
+.btn-first{padding:11px 24px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-first:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(47,125,74,.3)}
+.toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--ink);color:#fff;padding:10px 20px;border-radius:20px;font-size:.85rem;font-weight:600;animation:toastIn .3s ease;white-space:nowrap}
+.toast.out{animation:toastOut .3s ease forwards}
+footer{text-align:center;padding:16px 0 28px;font-size:.73rem;color:var(--muted)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+@keyframes cardOut{to{opacity:0;transform:scale(.92) translateY(10px)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(10px)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(max-width:600px){.hero{padding:20px 18px}.form-row{flex-direction:column}.btn-add{width:100%}.tagline{display:none}.search-wrap{margin-left:0;width:100%}.search-wrap input{width:100%}.bar{flex-direction:column;align-items:stretch}.filter-btn{text-align:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo"><span>🌱</span> Seedling</div>
+    <p class="tagline">A tiny garden, right on your windowsill.</p>
+  </header>
+  <section class="hero" aria-label="Dashboard summary">
+    <div class="hero-top">
+      <div><div class="greeting" id="greeting"></div><div class="hero-date" id="hero-date"></div></div>
+      <div class="hero-icons" aria-hidden="true">☀️ 🍃 💧</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-label">Plants</div></div>
+      <div class="stat"><div class="stat-num red" id="s-needs">0</div><div class="stat-label">Needs Water</div></div>
+      <div class="stat"><div class="stat-num amber" id="s-today">0</div><div class="stat-label">Due Today</div></div>
+      <div class="stat"><div class="stat-num" id="s-ok">0</div><div class="stat-label">On Track</div></div>
+    </div>
+  </section>
+  <section class="form-card" aria-label="Add a new plant">
+    <h2>🪴 Add a plant</h2>
+    <form id="add-form" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label for="inp-name">Plant name</label>
+          <input id="inp-name" type="text" placeholder="e.g. Basil" autocomplete="off" maxlength="40">
+          <span class="err" id="err-name" role="alert"></span>
+        </div>
+        <div class="field">
+          <label for="inp-freq">Water every</label>
+          <div class="freq-wrap">
+            <input id="inp-freq" type="number" placeholder="3" min="1" step="1" inputmode="numeric">
+            <span>days</span>
+          </div>
+          <span class="err" id="err-freq" role="alert"></span>
+        </div>
+        <div class="field" style="flex:0">
+          <label style="visibility:hidden">Add</label>
+          <button type="submit" class="btn-add">Add Plant</button>
+        </div>
+      </div>
+    </form>
+  </section>
+  <div class="bar" role="toolbar" aria-label="Filter plants">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="needs">Needs Water</button>
+    <button class="filter-btn" data-filter="ok">On Track</button>
+    <div class="search-wrap">
+      <label for="search" style="position:absolute;left:-9999px">Search plants</label>
+      <input id="search" type="search" placeholder="Search plants…" autocomplete="off">
+    </div>
+  </div>
+  <div id="plant-grid" class="grid" aria-live="polite"></div>
+</div>
+<div class="toast-wrap" id="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
+<footer>Seedling &copy; 2026 — Local-first plant care tracker</footer><script>
+const KEY='seedlingPlants';
+const EMOJIS=['🌿','🌱','🌵','🌻','🍃','🪴','🌾','🪷'];
+let plants=[],filter='all',query='';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(plants))}catch(e){}}
+function load(){try{const d=localStorage.getItem(KEY);if(d)plants=JSON.parse(d)||[]}catch(e){plants=[]}}
+function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function parseKey(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
+function addDays(s,n){const d=parseKey(s);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function daysBetween(a,b){return Math.round((parseKey(b)-parseKey(a))/(864e5))}
+function getStatus(p){
+  const today=todayKey(),next=addDays(p.lastWatered,p.frequency),diff=daysBetween(today,next);
+  if(diff<0)return{type:'red',icon:'!',text:'Overdue by '+Math.abs(diff)+' day'+(Math.abs(diff)>1?'s':'')};
+  if(diff===0)return{type:'amber',icon:'◷',text:'Water today'};
+  if(diff===1)return{type:'green',icon:'✓',text:'Next watering tomorrow'};
+  return{type:'green',icon:'✓',text:'Next watering in '+diff+' days'};
+}
+function isNeedsWater(p){const st=getStatus(p);return st.type==='red'||st.type==='amber'}
+function urgency(p){return daysBetween(todayKey(),addDays(p.lastWatered,p.frequency))}
+function fmtDate(s){const[y,m,d]=s.split('-').map(Number);const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return mo[m-1]+' '+d+', '+y}
+function escT(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function renderStats(){
+  const n=plants.length,over=plants.filter(p=>getStatus(p).type==='red').length;
+  const tod=plants.filter(p=>getStatus(p).type==='amber').length,ok=plants.filter(p=>getStatus(p).type==='green').length;
+  document.getElementById('s-total').textContent=n;
+  document.getElementById('s-needs').textContent=over;
+  document.getElementById('s-today').textContent=tod;
+  document.getElementById('s-ok').textContent=ok;
+}
+function getVisible(){
+  let list=[...plants];
+  if(query)list=list.filter(p=>p.name.toLowerCase().includes(query.toLowerCase()));
+  if(filter==='needs')list=list.filter(p=>isNeedsWater(p));
+  if(filter==='ok')list=list.filter(p=>!isNeedsWater(p));
+  list.sort((a,b)=>urgency(a)-urgency(b));
+  return list;
+}
+function cardHTML(p){
+  const st=getStatus(p),today=todayKey(),ll=p.lastWatered===today?'Today':fmtDate(p.lastWatered);
+  return '<div class="card" data-id="'+p.id+'">'
+    +'<button class="btn-del" data-action="del-ask" aria-label="Delete '+escT(p.name)+'">✕</button>'
+    +'<span class="card-emoji">'+(p.emoji||'🌿')+'</span>'
+    +'<div class="card-name">'+escT(p.name)+'</div>'
+    +'<div class="card-freq">Every '+p.frequency+' day'+(p.frequency>1?'s':'')+'</div>'
+    +'<span class="badge '+st.type+'">'+st.icon+' '+st.text+'</span>'
+    +'<div class="last-watered">Last watered <strong>'+ll+'</strong></div>'
+    +'<button class="btn-water" data-action="water" aria-label="Mark '+escT(p.name)+' as watered today">🪴 Watered Today</button>'
+    +'<div class="del-confirm"><p>Remove <strong>'+escT(p.name)+'</strong> from your garden?</p>'
+    +'<div class="del-actions"><button class="btn-cancel" data-action="del-cancel">Cancel</button>'
+    +'<button class="btn-confirm-del" data-action="del-confirm">Remove</button></div></div>'
+    +'</div>';
+}
+function renderPlants(){
+  const grid=document.getElementById('plant-grid'),visible=getVisible();
+  if(!visible.length){
+    if(!plants.length){
+      grid.innerHTML='<div class="empty"><div class="empty-icon">🌱</div><h3>Your windowsill is waiting.</h3><p>Add your first seedling and we\'ll help you remember when to water it.</p><button class="btn-first" id="btn-first">Add Your First Plant</button></div>';
+      const bf=document.getElementById('btn-first');
+      if(bf)bf.onclick=()=>document.getElementById('inp-name').focus();
+    }else{
+      grid.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><h3>No plants match your filter.</h3></div>';
+    }
+    return;
+  }
+  grid.innerHTML=visible.map(p=>cardHTML(p)).join('');
+}
+function render(){renderStats();renderPlants()}
+function showToast(msg){
+  const wrap=document.getElementById('toast-wrap'),t=document.createElement('div');
+  t.className='toast';t.textContent=msg;wrap.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300)},2400);
+}
+document.getElementById('plant-grid').addEventListener('click',e=>{
+  const card=e.target.closest('.card');if(!card)return;
+  const id=Number(card.dataset.id),action=e.target.dataset.action;if(!action)return;
+  const p=plants.find(x=>x.id===id);if(!p)return;
+  if(action==='water'){p.lastWatered=todayKey();save();const btn=e.target;btn.textContent='✓ Watered';btn.classList.add('done');setTimeout(()=>render(),900);showToast(p.name+' watered! 🌱')}
+  if(action==='del-ask'){card.querySelector('.del-confirm').classList.add('show')}
+  if(action==='del-cancel'){card.querySelector('.del-confirm').classList.remove('show')}
+  if(action==='del-confirm'){card.style.animation='cardOut .3s ease forwards';setTimeout(()=>{plants=plants.filter(x=>x.id!==id);save();render();showToast(p.name+' removed.')},280)}
+});
+document.querySelector('.bar').addEventListener('click',e=>{
+  if(!e.target.classList.contains('filter-btn'))return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  filter=e.target.dataset.filter;renderPlants();
+});
+document.getElementById('search').addEventListener('input',e=>{query=e.target.value;renderPlants()});
+document.getElementById('add-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const ni=document.getElementById('inp-name'),fi=document.getElementById('inp-freq');
+  const en=document.getElementById('err-name'),ef=document.getElementById('err-freq');
+  en.textContent='';ef.textContent='';
+  const name=ni.value.trim(),freq=parseInt(fi.value,10);
+  let ok=true;
+  if(!name){en.textContent='Plant name is required.';ok=false;}
+  if(!fi.value||isNaN(freq)||freq<1||!Number.isInteger(freq)){ef.textContent='Enter a whole number ≥ 1.';ok=false;}
+  if(!ok)return;
+  const emoji=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+  plants.push({id:Date.now(),name,frequency:freq,lastWatered:todayKey(),emoji});
+  save();render();ni.value='';fi.value='';ni.focus();
+  showToast(name+' added! 🌱');
+});
+function setHero(){
+  const h=new Date().getHours(),greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  document.getElementById('greeting').textContent=greet+', plant parent 🌿';
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const now=new Date();
+  document.getElementById('hero-date').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+}
+load();setHero();render();
+</script>
+</body>
+</html>
