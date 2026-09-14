@@ -1,11 +1,11 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Seedling</title>
 <style>
-:root{--bg:#f5f7f1;--surface:#fff;--ink:#17301f;--muted:#708074;--green:#2f7d4a;--green-soft:#e5f3e9;--red:#c64545;--red-soft:#fdeaea;--amber:#b97919;--amber-soft:#fff2d8;--border:#dde5d8;--shadow:0 2px 12px rgba(23,48,31,.07);--r:18px}
+:root{--bg:#f5f7f1;--surface:#fff;--ink:#17301f;--muted:#708074;--green:#2f7d4a;--green-soft:#e5f3e9;--red:#c64545;--red-soft:#fdeaea;--amber:#b97919;--amber-soft:#fff2d8;--border:#dde5d8;--shadow:0 2px 8px rgba(0,0,0,.08)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;position:relative;overflow-x:hidden}
 body::before{content:'';position:fixed;top:-120px;right:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(47,125,74,.13) 0%,transparent 70%);pointer-events:none;z-index:0}
@@ -14,7 +14,7 @@ body::after{content:'';position:fixed;bottom:-80px;left:-80px;width:280px;height
 header{padding:22px 0 16px;display:flex;align-items:center;gap:10px}
 .logo{font-size:1.55rem;font-weight:800;color:var(--green);letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
 .tagline{font-size:.8rem;color:var(--muted);margin-left:auto;font-style:italic}
-.hero{background:linear-gradient(135deg,var(--green-soft) 0%,#f0f8f2 100%);border-radius:var(--r);padding:28px 28px 24px;margin-bottom:24px;animation:fadeUp .5s ease both}
+.hero{background:linear-gradient(135deg,var(--green-soft) 0%,#f0f8f2 100%);border-radius:12px;padding:28px 28px 24px;margin-bottom:24px;animation:fadeUp .5s ease both}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
 .greeting{font-size:1.35rem;font-weight:700;color:var(--green)}
 .hero-date{font-size:.85rem;color:var(--muted);margin-top:4px}
@@ -25,7 +25,7 @@ header{padding:22px 0 16px;display:flex;align-items:center;gap:10px}
 .stat-num.red{color:var(--red)}
 .stat-num.amber{color:var(--amber)}
 .stat-label{font-size:.72rem;color:var(--muted);margin-top:2px}
-.form-card{background:var(--surface);border-radius:var(--r);padding:22px 24px;margin-bottom:22px;box-shadow:var(--shadow);animation:fadeUp .5s .1s ease both}
+.form-card{background:var(--surface);border-radius:12px;padding:22px 24px;margin-bottom:22px;box-shadow:var(--shadow);animation:fadeUp .5s .1s ease both}
 .form-card h2{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
 .form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
 .field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px}
@@ -35,10 +35,11 @@ header{padding:22px 0 16px;display:flex;align-items:center;gap:10px}
 .freq-wrap{display:flex;align-items:center;gap:6px}
 .freq-wrap input{width:72px}
 .freq-wrap span{font-size:.85rem;color:var(--muted);white-space:nowrap}
-.btn-add{padding:10px 22px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;white-space:nowrap;align-self:flex-end}
+.btn-add{padding:10px 22px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;white-space:nowrap}
 .btn-add:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(47,125,74,.3)}
 .btn-add:active{transform:scale(.97)}
-.err{font-size:.75rem;color:var(--red);margin-top:4px;min-height:14px}.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.err{font-size:.75rem;color:var(--red);margin-top:4px;min-height:14px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
 .filter-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
 .filter-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
 .search-wrap{margin-left:auto;position:relative}
@@ -46,7 +47,7 @@ header{padding:22px 0 16px;display:flex;align-items:center;gap:10px}
 .search-wrap input:focus{border-color:var(--green)}
 .search-wrap::before{content:'🔍';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:.75rem;pointer-events:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:32px}
-.card{background:var(--surface);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);position:relative;transition:transform .2s,box-shadow .2s;animation:cardIn .35s ease both}
+.card{background:var(--surface);border-radius:12px;padding:22px;box-shadow:var(--shadow);position:relative;transition:transform .2s,box-shadow .2s;animation:cardIn .35s ease both}
 .card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(23,48,31,.1)}
 .card-emoji{font-size:2rem;margin-bottom:8px;display:block}
 .card-name{font-size:1.15rem;font-weight:800;color:var(--ink);margin-bottom:2px}
@@ -58,7 +59,7 @@ header{padding:22px 0 16px;display:flex;align-items:center;gap:10px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 .last-watered{font-size:.75rem;color:var(--muted);margin-bottom:14px}
 .last-watered strong{color:var(--ink)}
-.btn-water{width:100%;padding:11px;background:var(--green-soft);color:var(--green);border:1.5px solid rgba(47,125,74,.25);border-radius:10px;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:8px}
+.btn-water{width:100%;padding:11px;background:var(--green-soft);color:var(--green);border:1.5px solid rgba(47,125,74,.25);border-radius:10px;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .15s}
 .btn-water:hover{background:var(--green);color:#fff}
 .btn-water:active{transform:scale(.97)}
 .btn-water.done{background:var(--green);color:#fff}
@@ -87,7 +88,7 @@ footer{text-align:center;padding:16px 0 28px;font-size:.73rem;color:var(--muted)
 @keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes toastOut{to{opacity:0;transform:translateY(10px)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-@media(max-width:600px){.hero{padding:20px 18px}.form-row{flex-direction:column}.btn-add{width:100%}.tagline{display:none}.search-wrap{margin-left:0;width:100%}.search-wrap input{width:100%}.bar{flex-direction:column;align-items:stretch}.filter-btn{text-align:center}}
+@media(max-width:600px){.hero{padding:20px 18px}.form-row{flex-direction:column}.btn-add{width:100%}.tagline{display:none}.search-wrap{margin-left:0;width:100%}.search-wrap input{width:100%}.bar{flex-direction:column}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -144,7 +145,8 @@ footer{text-align:center;padding:16px 0 28px;font-size:.73rem;color:var(--muted)
   <div id="plant-grid" class="grid" aria-live="polite"></div>
 </div>
 <div class="toast-wrap" id="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
-<footer>Seedling &copy; 2026 — Local-first plant care tracker</footer><script>
+<footer>Seedling &copy; 2026 — Local-first plant care tracker</footer>
+<script>
 const KEY='seedlingPlants';
 const EMOJIS=['🌿','🌱','🌵','🌻','🍃','🪴','🌾','🪷'];
 let plants=[],filter='all',query='';
@@ -200,7 +202,7 @@ function renderPlants(){
   const grid=document.getElementById('plant-grid'),visible=getVisible();
   if(!visible.length){
     if(!plants.length){
-      grid.innerHTML='<div class="empty"><div class="empty-icon">🌱</div><h3>Your windowsill is waiting.</h3><p>Add your first seedling and we\'ll help you remember when to water it.</p><button class="btn-first" id="btn-first">Add Your First Plant</button></div>';
+      grid.innerHTML='<div class="empty"><div class="empty-icon">🌱</div><h3>Your windowsill is waiting.</h3><p>Add your first seedling and we\'ll help you remember when to water it.</p><button class="btn-first" id="btn-first">Get Started</button></div>';
       const bf=document.getElementById('btn-first');
       if(bf)bf.onclick=()=>document.getElementById('inp-name').focus();
     }else{
